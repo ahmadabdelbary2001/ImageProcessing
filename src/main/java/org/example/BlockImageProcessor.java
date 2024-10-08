@@ -7,28 +7,38 @@ import java.util.List;
 public class BlockImageProcessor implements ImageProcessor {
 
     @Override
-    public void recolorImage(BufferedImage originalImage, BufferedImage resultImage) {
+    public void recolorImage(BufferedImage originalImage, BufferedImage resultImage, int numberOfThreads) throws InterruptedException {
+        int blockSize = (int) Math.sqrt(numberOfThreads);
 
-    }
+        int width = originalImage.getWidth() / blockSize;
+        int height = originalImage.getHeight() / blockSize;
 
-    @Override
-    public List<RecolorPixels> divideImage(BufferedImage originalImage, BufferedImage resultImage, int numThreads) {
-        int blockWidth = originalImage.getWidth() / numThreads;
-        int blockHeight = originalImage.getHeight() / numThreads;
+        Thread[] threads = new Thread[numberOfThreads];
 
-        List<RecolorPixels> tasks = new ArrayList<>();
+        int threadIndex = 0;
 
-        for (int x = 0; x < originalImage.getWidth(); x += blockWidth) {
-            for (int y = 0; y < originalImage.getHeight(); y += blockHeight) {
-                int width = Math.min(blockWidth, originalImage.getWidth() - x);
-                int height = Math.min(blockHeight, originalImage.getHeight() - y);
+        for (int i = 0; i < blockSize; i++) {
+            for (int j = 0; j < blockSize; j++) {
+                final int xOrigin = width * i;
+                final int yOrigin = height * j;
 
-                RecolorPixels task = new RecolorPixels(originalImage, resultImage, x, y, width, height);
-                tasks.add(task);
+                Thread thread = new Thread(() -> {
+                    RecolorPixels recolorPixels = new RecolorPixels(originalImage, resultImage, xOrigin, yOrigin, width, height);
+                    recolorPixels.recolorImage();
+                });
+
+                thread.start();
+
+                threads[threadIndex] = thread;
+                threadIndex++;
             }
         }
 
-        return tasks;
+        for (Thread thread : threads) {
+            if (thread != null) {
+                thread.join();
+            }
+        }
     }
 }
 
