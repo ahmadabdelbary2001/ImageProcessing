@@ -5,7 +5,7 @@
 The project introduces a multithread approach to image recoloring using Java. This application has provided three different strategies for dividing work among threads other than the usual one, that is, No Division (Single Thread):
 
 1. **Horizontal Division**
-This is one technique of horizontally dividing the image into strips; each is processed differently by a thread. It would do well for general image processing, but if it contains lots of vertical or diagonal designs, it might be problematic since it operates on rows of an image independently and may or may not account for continuity across columns.
+.This is one technique of horizontally dividing the image into strips; each is processed differently by a thread. It would do well for general image processing, but if it contains lots of vertical or diagonal designs, it might be problematic since it operates on rows of an image independently and may or may not account for continuity across columns.
 
 2. **Vertical Division**
 It is done by dividing the whole image into vertical slices. That is very handy in cases when horizontal continuity has to be kept up, but it may miss those fine details that stretch both horizontally and vertically, such as a diagonal pattern or edges whose course runs through both directions.
