@@ -18,7 +18,7 @@ The picture is subdivided into small rectangular blocks, each block dealt with b
 
 4. **No Division (Single Thread)**
 
-This strategy consists of only one thread dealing with the whole image, although it is very simple and easy to implement. It is the slowest in big images since it does not use parallel processing that may distribute workload among threads. Actually, it is identical to "Block Division" in edge detection.edge detection or when dealing with regions of interest that are scattered across the image.
+This approach consists of only one thread dealing with the whole image, although it is very simple and easy to implement. It is the slowest in big images since it does not use parallel processing that may distribute workload among threads. Actually, it is identical to "Block Division" in edge detection.edge detection or when dealing with regions of interest that are scattered across the image.
 
 ## Requirements
 - JDK 11 or later
